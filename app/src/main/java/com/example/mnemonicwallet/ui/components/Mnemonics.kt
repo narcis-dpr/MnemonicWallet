@@ -23,7 +23,7 @@ fun Mnemonics(mnemonics: List<String>) {
     Card(
         backgroundColor = Color.LightGray,
         modifier = Modifier
-            .padding(4.dp)
+            .padding(16.dp)
             .fillMaxWidth(),
         elevation = 8.dp,
     ) {
@@ -39,11 +39,12 @@ fun Mnemonics(mnemonics: List<String>) {
             items(mnemonics.size) { i ->
                 Text(
                     text = mnemonics[i],
-                    fontSize = 25.sp,
+
                     color = Color.Black,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.wrapContentSize(),
                     overflow = TextOverflow.Visible,
+                    maxLines = 1
                     
                 )
             }
