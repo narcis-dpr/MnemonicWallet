@@ -17,8 +17,9 @@ import java.io.File
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
+import kotlin.collections.List
 
-class WalletService(var filePath: File) : WalletRepository {
+class WalletService() : WalletRepository {
 
     private val RADIX = 16
 
@@ -46,15 +47,14 @@ class WalletService(var filePath: File) : WalletRepository {
         return createMnemonics(ByteArray(Words.TWELVE.byteLength()))
     }
 
-    private fun createHDWalletFromMnemonic(mnemonics: String): Single<W3JLWallet> {
+    private fun createHDWalletFromMnemonic(mnemonics: List<String>): Single<W3JLWallet> {
         return Single.create { emitter ->
             try {
                 val pathArray =
                     ETH_TYPE.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 val passphrase = ""
-                val list = mnemonics.split(" ")
                 val creationTimeSeconds = System.currentTimeMillis() / 1000
-                val ds = DeterministicSeed(list, null, passphrase, creationTimeSeconds)
+                val ds = DeterministicSeed(mnemonics, null, passphrase, creationTimeSeconds)
                 val seedBytes = ds.seedBytes
                 var dkKey = HDKeyDerivation.createMasterPrivateKey(seedBytes)
                 for (i in 1 until pathArray.size) {
@@ -94,7 +94,7 @@ class WalletService(var filePath: File) : WalletRepository {
 
     @Throws(Exception::class)
     override fun createWalletFromMnemonic(
-        mnemonics: String,
+        mnemonics: List<String>,
         password: String?,
     ): Single<W3JLWallet> {
         return createHDWalletFromMnemonic(mnemonics)

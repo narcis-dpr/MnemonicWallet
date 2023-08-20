@@ -17,5 +17,6 @@ interface TokenRepository {
         amount: BigInteger,
         gasPrice: BigInteger,
         gasLimit: BigInteger,
+        nonce: Long,
     ): Single<String>
 }

@@ -51,19 +51,15 @@ class TokenService(private var context: Context, var web3j: Web3j, var mTokenInf
         amount: BigInteger,
         gasPrice: BigInteger,
         gasLimit: BigInteger,
+        nonce: Long
     ): Single<String> {
         return Single.create { emitter ->
             try {
                 val data = createTokenTransferData(to, amount)
-                val nonce = web3j
-                    .ethGetTransactionCount(from, DefaultBlockParameterName.LATEST)
-                    .sendAsync().get().transactionCount
                 val signedMessage = BaseConfigService(context)
                     .signTransaction(from, privateKey, mTokenInfo!!.address, BigInteger.valueOf(0), gasPrice, gasLimit, nonce.toLong(), data, 3)
                 emitter.onSuccess(
-                    web3j
-                        .ethSendRawTransaction(Numeric.toHexString(signedMessage))
-                        .sendAsync().get().transactionHash,
+                    Numeric.toHexString(signedMessage)
                 )
             } catch (e: Exception) {
                 emitter.onError(e)

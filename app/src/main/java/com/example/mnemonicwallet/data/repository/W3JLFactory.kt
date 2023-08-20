@@ -20,10 +20,6 @@ class W3JLFactory {
         return this
     }
 
-    fun withKeyStoreFile(keyStoreFile: File): W3JLFactory {
-        this.keyStoreFile = keyStoreFile
-        return this
-    }
 
     fun withNetworkProvider(networkProvider: String): W3JLFactory {
         this.networkProvider = networkProvider
@@ -37,7 +33,7 @@ class W3JLFactory {
 
     fun buildW3JLWallet(): WalletRepository {
         check(keyStoreFile != null) { "Please init context | keyStoreFile first" }
-        return WalletService(keyStoreFile!!)
+        return WalletService()
     }
 
     fun buildW3JLEth(): EthRepository {

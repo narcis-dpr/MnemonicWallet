@@ -93,7 +93,6 @@ class EthService(private var web3j: Web3j) : EthRepository {
                 ).sendAsync().get()
 
                 val nonce = ethGetTransactionCount.transactionCount
-                println(nonce)
 
                 val rawTransaction = RawTransaction.createEtherTransaction(
                     nonce,
@@ -128,7 +127,6 @@ class EthService(private var web3j: Web3j) : EthRepository {
                 ).sendAsync().get()
 
                 val nonce = ethGetTransactionCount.transactionCount
-                println(nonce)
 
                 val rawTransaction = RawTransaction.createEtherTransaction(
                     nonce,
